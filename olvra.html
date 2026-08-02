@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Olvra — Built to Bring Comfort</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#f4efe8;
+    --ink-dim:#c9bfae;
+    --void-1:#160f22;
+    --void-2:#241534;
+    --void-3:#331b3f;
+    --ember:#ff8c42;
+    --ember-soft:#ffb578;
+    --teal:#5eead4;
+    --glass:rgba(244,239,232,0.06);
+    --glass-border:rgba(244,239,232,0.14);
+    --glass-hi:rgba(244,239,232,0.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(60% 45% at 18% 12%, rgba(255,140,66,0.16), transparent 60%),
+      radial-gradient(55% 45% at 85% 8%, rgba(94,234,212,0.10), transparent 60%),
+      linear-gradient(160deg, var(--void-1) 0%, var(--void-2) 55%, var(--void-3) 100%);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+  }
+  /* ambient forge glow, signature element */
+  .ember-orb{
+    position:fixed;
+    width:640px; height:640px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(255,140,66,0.35) 0%, rgba(255,140,66,0.08) 45%, transparent 70%);
+    top:-180px; left:50%; transform:translateX(-60%);
+    filter:blur(10px);
+    animation:breathe 9s ease-in-out infinite;
+    pointer-events:none;
+    z-index:0;
+  }
+  @keyframes breathe{
+    0%,100%{opacity:0.75; transform:translateX(-60%) scale(1);}
+    50%{opacity:1; transform:translateX(-55%) scale(1.08);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ember-orb{animation:none;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px; position:relative; z-index:1;}
+
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:28px 0;
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:1.5rem;
+    letter-spacing:0.01em;
+  }
+  .logo span{color:var(--ember-soft);}
+  .nav-links{display:flex; gap:32px; font-family:'IBM Plex Mono', monospace; font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase;}
+  .nav-links a{color:var(--ink-dim); text-decoration:none; transition:color 0.25s;}
+  .nav-links a:hover, .nav-links a:focus-visible{color:var(--ember-soft);}
+
+  /* HERO */
+  .hero{
+    padding:88px 0 60px;
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:56px;
+    align-items:center;
+  }
+  .hero-solo{
+    grid-template-columns:1fr;
+    max-width:680px;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin-bottom:22px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:7px; height:7px; border-radius:50%;
+    background:var(--teal);
+    box-shadow:0 0 12px var(--teal);
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(2.4rem, 5vw, 3.9rem);
+    line-height:1.08;
+    letter-spacing:-0.01em;
+  }
+  h1 em{
+    font-style:italic;
+    font-weight:400;
+    background:linear-gradient(100deg, var(--ember-soft), var(--teal));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero-sub{
+    margin-top:22px;
+    font-size:1.08rem;
+    line-height:1.65;
+    color:var(--ink-dim);
+    max-width:46ch;
+  }
+  .hero-cta{
+    margin-top:34px;
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    letter-spacing:0.04em;
+    padding:14px 24px;
+    border-radius:12px;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:transform 0.25s, box-shadow 0.25s, background 0.25s;
+  }
+  .btn-primary{
+    background:linear-gradient(120deg, var(--ember), #ff6f3c);
+    color:#1a0f0a;
+    font-weight:600;
+    box-shadow:0 8px 26px rgba(255,140,66,0.28);
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 12px 32px rgba(255,140,66,0.38);}
+  .btn-ghost{
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    color:var(--ink);
+    backdrop-filter:blur(14px);
+  }
+  .btn-ghost:hover{background:var(--glass-hi); transform:translateY(-2px);}
+
+  /* glass monogram card */
+  .glass-panel{
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    border-radius:24px;
+    backdrop-filter:blur(22px) saturate(140%);
+    -webkit-backdrop-filter:blur(22px) saturate(140%);
+    box-shadow:0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .monogram-card{
+    padding:44px 36px;
+    text-align:center;
+    position:relative;
+  }
+  .monogram{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:4.2rem;
+    background:linear-gradient(160deg, var(--ember-soft), var(--teal) 120%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    line-height:1;
+  }
+  .monogram-label{
+    margin-top:14px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+  }
+  .monogram-quote{
+    margin-top:22px;
+    padding-top:22px;
+    border-top:1px solid var(--glass-border);
+    font-size:0.9rem;
+    color:var(--ink-dim);
+    font-style:italic;
+    line-height:1.6;
+  }
+
+  /* SECTION HEADERS */
+  .section{padding:70px 0;}
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:36px;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .section-head h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(1.6rem, 3vw, 2.2rem);
+  }
+  .section-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--teal);
+  }
+
+  /* FOUNDER */
+  .founder{
+    display:grid;
+    grid-template-columns:0.62fr 1fr;
+    gap:44px;
+    align-items:stretch;
+  }
+  .founder-badge{
+    padding:38px 30px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+  .founder-badge .age{
+    font-family:'Fraunces', serif;
+    font-size:3.4rem;
+    font-weight:500;
+    color:var(--ember-soft);
+    line-height:1;
+  }
+  .founder-badge .age-label{
+    margin-top:6px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--ink-dim);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+  .founder-badge .divider{
+    margin:24px 0;
+    height:1px;
+    background:var(--glass-border);
+  }
+  .founder-badge .role{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--ink-dim);
+    line-height:1.8;
+  }
+  .founder-badge .role strong{color:var(--ink); font-weight:500;}
+
+  .founder-text{
+    padding:38px 40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .founder-name{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:1.7rem;
+    margin-bottom:18px;
+    color:var(--ember-soft);
+  }
+  .founder-text p{
+    font-size:1.02rem;
+    line-height:1.75;
+    color:var(--ink-dim);
+    margin-bottom:16px;
+  }
+  .founder-text p strong{color:var(--ink); font-weight:600;}
+  .founder-text p:last-child{margin-bottom:0;}
+
+  /* LETTER */
+  .letter{
+    padding:44px 48px;
+  }
+  .letter-top{
+    display:flex;
+    align-items:center;
+    gap:22px;
+    margin-bottom:30px;
+    padding-bottom:26px;
+    border-bottom:1px solid var(--glass-border);
+  }
+  .photo-frame{
+    width:88px; height:88px;
+    border-radius:50%;
+    padding:3px;
+    background:linear-gradient(140deg, var(--ember-soft), var(--teal));
+    flex-shrink:0;
+  }
+  .photo-placeholder{
+    width:100%; height:100%;
+    border-radius:50%;
+    background:var(--void-2);
+    border:1px dashed var(--glass-border);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+  }
+  .photo-placeholder span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.62rem;
+    letter-spacing:0.05em;
+    color:var(--ink-dim);
+    text-transform:uppercase;
+    line-height:1.3;
+    padding:0 8px;
+  }
+  /* To use a real photo: replace .photo-placeholder div with
+     <img src="your-photo.jpg" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"> */
+  .letter-top .founder-name{
+    margin-bottom:0;
+    font-size:1.5rem;
+    line-height:1.3;
+  }
+  .letter-top .founder-name span{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-style:normal;
+    font-size:0.72rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    margin-top:6px;
+  }
+  .letter-body p{
+    font-size:1.04rem;
+    line-height:1.8;
+    color:var(--ink-dim);
+    margin-bottom:18px;
+    max-width:62ch;
+  }
+  .letter-body p strong{color:var(--ink); font-weight:600;}
+  .letter-sign{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:1.2rem;
+    color:var(--ember-soft) !important;
+    margin-top:8px !important;
+  }
+
+  /* FOUNDED CARD — sits after the letter, not hyped in the hero */
+  .founded-card{
+    margin-top:22px;
+    padding:26px 32px;
+    display:flex;
+    align-items:center;
+    gap:24px;
+  }
+  .founded-age{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:2.6rem;
+    color:var(--ember-soft);
+    line-height:1;
+    flex-shrink:0;
+  }
+  .founded-text{
+    border-left:1px solid var(--glass-border);
+    padding-left:24px;
+  }
+  .founded-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin-bottom:6px;
+  }
+  .founded-text p{
+    font-size:0.92rem;
+    color:var(--ink-dim);
+    line-height:1.6;
+  }
+
+  /* SYSTEMS GRID */
+  .systems-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:22px;
+  }
+  .sys-card{
+    padding:30px 26px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    transition:transform 0.3s, border-color 0.3s;
+  }
+  .sys-card:hover{transform:translateY(-4px); border-color:rgba(255,140,66,0.35);}
+  .sys-icon{
+    width:52px; height:52px;
+    border-radius:14px;
+    object-fit:cover;
+    box-shadow:0 6px 18px rgba(0,0,0,0.3);
+  }
+  .sys-status{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:var(--teal);
+  }
+  .sys-status.building{color:var(--ember-soft);}
+  .sys-status::before{
+    content:'';
+    width:6px; height:6px; border-radius:50%;
+    background:currentColor;
+    box-shadow:0 0 8px currentColor;
+  }
+  .sys-card h3{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:1.28rem;
+  }
+  .sys-card p{
+    font-size:0.9rem;
+    color:var(--ink-dim);
+    line-height:1.55;
+    flex-grow:1;
+  }
+  .sys-link{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.76rem;
+    color:var(--ink);
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    opacity:0.85;
+  }
+  .sys-link:hover{opacity:1; color:var(--ember-soft);}
+
+  /* CLOSING */
+  .closing{
+    text-align:center;
+    padding:60px 40px 70px;
+  }
+  .closing h2{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(1.6rem, 3.4vw, 2.4rem);
+    line-height:1.3;
+    max-width:24ch;
+    margin:0 auto 26px;
+  }
+  .closing .btn{margin-top:6px;}
+
+  footer{
+    padding:32px 0 50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:14px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--ink-dim);
+    border-top:1px solid var(--glass-border);
+  }
+  footer a{color:var(--ink-dim); text-decoration:none;}
+  footer a:hover{color:var(--ember-soft);}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr; padding-top:60px;}
+    .systems-grid{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    .letter{padding:34px 26px;}
+    .letter-top{flex-wrap:wrap;}
+    .founded-card{flex-direction:column; align-items:flex-start; gap:12px;}
+    .founded-text{border-left:none; padding-left:0; border-top:1px solid var(--glass-border); padding-top:12px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="ember-orb" aria-hidden="true"></div>
+
+<div class="wrap">
+  <nav>
+    <div class="logo">olv<span>ra</span></div>
+    <div class="nav-links">
+      <a href="#founder">Founder</a>
+      <a href="#systems">Systems</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <section class="hero hero-solo">
+    <div>
+      <div class="eyebrow">Olvra Systems</div>
+      <h1>Built to bring <em>comfort.</em><br>Built to be <em>relentless.</em></h1>
+      <p class="hero-sub">Olvra is a growing collection of tools made for people who need one less thing to worry about — small, dependable systems, built to just work.</p>
+      <div class="hero-cta">
+        <a href="#systems" class="btn btn-primary">See what's live →</a>
+        <a href="#founder" class="btn btn-ghost">Meet Oliver</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="founder">
+    <div class="section-head">
+      <h2>Meet Oliver</h2>
+      <div class="section-tag">Origin</div>
+    </div>
+
+    <div class="letter glass-panel">
+      <div class="letter-top">
+        <div class="photo-frame">
+          <div class="photo-placeholder">
+            <span>Add photo</span>
+          </div>
+        </div>
+        <div class="founder-name">Testimony Inaweoghena Jacob<br><span>— known as Oliver</span></div>
+      </div>
+
+      <div class="letter-body">
+        <p>Hi, I'm Oliver.</p>
+        <p>I'm not chasing hype — I'm chasing <strong>comfort</strong>. The kind that comes from a tool that just works, a problem that quietly disappears, a person who feels a little less stuck because something was built for them.</p>
+        <p>That's the whole reason Olvra exists. Not to look impressive, but to actually help.</p>
+        <p>If there's one thing I hope you take from watching me build, it's this: <strong>you don't need permission to start, you need to be relentless enough to keep going.</strong> That's the only rule I've ever really followed.</p>
+        <p class="letter-sign">— Oliver</p>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="section" id="systems">
+    <div class="section-head">
+      <h2>Systems</h2>
+      <div class="section-tag">What's building</div>
+    </div>
+    <div class="systems-grid">
+      <div class="glass-panel sys-card">
+        <img src="woodpay-icon.png" alt="WoodPay" class="sys-icon">
+        <div class="sys-status">Live</div>
+        <h3>WoodPay</h3>
+        <p>A fintech wallet built for everyday use — send, receive, and manage money without the friction.</p>
+        <a href="https://woodpay.netlify.app" target="_blank" rel="noopener" class="sys-link">Open app →</a>
+      </div>
+      <div class="glass-panel sys-card">
+        <img src="cgpa-icon.png" alt="CGPA Engine" class="sys-icon">
+        <div class="sys-status">Live</div>
+        <h3>CGPA Engine</h3>
+        <p>A calculator built around real grading systems, so students can plan a semester before it plans them.</p>
+        <a href="https://olvracgpa.netlify.app" target="_blank" rel="noopener" class="sys-link">Open app →</a>
+      </div>
+      <div class="glass-panel sys-card">
+        <img src="snappull-icon.png" alt="SnapPull" class="sys-icon">
+        <div class="sys-status">Live</div>
+        <h3>SnapPull</h3>
+        <p>Pull down video content from social platforms, clean and watermark-free, in one click.</p>
+        <a href="https://snappull.netlify.app" target="_blank" rel="noopener" class="sys-link">Open app →</a>
+      </div>
+      <div class="glass-panel sys-card">
+        <div class="sys-status building">In progress</div>
+        <h3>Presence</h3>
+        <p>A quiet WhatsApp automation layer for status, replies, and scheduled check-ins that never sleep.</p>
+        <a href="#" class="sys-link">Coming soon →</a>
+      </div>
+      <div class="glass-panel sys-card">
+        <img src="icon-voiceforge.png" alt="VoiceForge" class="sys-icon">
+        <div class="sys-status building">Coming soon</div>
+        <h3>VoiceForge</h3>
+        <p>Converts text into natural, human-sounding speech — for voice notes, narration, or accessibility.</p>
+        <a href="#" class="sys-link">Coming soon →</a>
+      </div>
+      <div class="glass-panel sys-card">
+        <img src="icon-movie.png" alt="Movie & Streaming Finder" class="sys-icon">
+        <div class="sys-status building">Coming soon</div>
+        <h3>Movie & Streaming Finder</h3>
+        <p>Search and browse movies and shows by metadata — a clean way to find what to watch next.</p>
+        <a href="#" class="sys-link">Coming soon →</a>
+      </div>
+      <div class="glass-panel sys-card">
+        <img src="icon-linkbio.png" alt="Link-in-Bio Builder" class="sys-icon">
+        <div class="sys-status building">Coming soon</div>
+        <h3>Link-in-Bio Builder</h3>
+        <p>One shareable page for all your links — clean, fast, and yours.</p>
+        <a href="#" class="sys-link">Coming soon →</a>
+      </div>
+      <div class="glass-panel sys-card">
+        <img src="icon-qrcard.png" alt="QR & Business Card Generator" class="sys-icon">
+        <div class="sys-status building">Coming soon</div>
+        <h3>QR & Business Card Generator</h3>
+        <p>Custom QR codes and digital business cards, made and shared in seconds.</p>
+        <a href="#" class="sys-link">Coming soon →</a>
+      </div>
+      <div class="glass-panel sys-card">
+        <img src="icon-groupguard.png" alt="Group Management Bot" class="sys-icon">
+        <div class="sys-status building">Coming soon</div>
+        <h3>Group Management Bot</h3>
+        <p>Auto-moderation, welcome messages, and anti-spam for WhatsApp and Telegram groups.</p>
+        <a href="#" class="sys-link">Coming soon →</a>
+      </div>
+      <div class="glass-panel sys-card">
+        <img src="icon-apirelay.png" alt="API Wrapper" class="sys-icon">
+        <div class="sys-status building">Coming soon</div>
+        <h3>API Wrapper</h3>
+        <p>Public APIs, repackaged with your own docs and rate limits — simple access, your pricing.</p>
+        <a href="#" class="sys-link">Coming soon →</a>
+      </div>
+      <div class="glass-panel sys-card">
+        <img src="icon-reminders.png" alt="Scheduled Reminders" class="sys-icon">
+        <div class="sys-status building">Coming soon</div>
+        <h3>Scheduled Reminders</h3>
+        <p>Scheduled WhatsApp and Telegram messages that show up right when they're supposed to.</p>
+        <a href="#" class="sys-link">Coming soon →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section closing" id="contact">
+    <div class="glass-panel" style="padding:50px 40px;">
+      <h2>Comfort starts with a conversation. Reach out.</h2>
+      <a href="#" class="btn btn-primary">Message on WhatsApp →</a>
+    </div>
+  </section>
+
+  <footer>
+    <div>© 2026 Olvra Systems. Built by Testimony Inaweoghena Jacob.</div>
+    <div><a href="#founder">Founder</a> · <a href="#systems">Systems</a> · <a href="#contact">Contact</a></div>
+  </footer>
+</div>
+
+</body>
+</html>
