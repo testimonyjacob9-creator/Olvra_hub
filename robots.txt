@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://olvrahub.netlify.app/sitemap.xml
