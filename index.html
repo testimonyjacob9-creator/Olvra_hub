@@ -29,7 +29,12 @@
     "@type": "Person",
     "name": "Oliver Wood"
   },
-  "url": "https://olvrahub.netlify.app/"
+  "url": "https://olvrahub.netlify.app/",
+  "sameAs": [
+    "https://woodpay.netlify.app",
+    "https://olvracgpa.netlify.app",
+    "https://snappull.netlify.app"
+  ]
 }
 </script>
 <script type="application/ld+json">
@@ -37,37 +42,73 @@
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Olvra Hub",
-  "url": "https://olvrahub.netlify.app/"
+  "url": "https://olvrahub.netlify.app/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://olvrahub.netlify.app/features.html#{search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
 }
 </script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@graph": [
+  "@type": "ItemList",
+  "name": "Olvra Hub Tools",
+  "itemListElement": [
     {
-      "@type": "WebApplication",
-      "name": "WoodPay",
-      "url": "https://woodpay.netlify.app",
-      "applicationCategory": "FinanceApplication",
-      "description": "A fintech wallet built for everyday use — send, receive, and manage money without the friction.",
-      "operatingSystem": "Web"
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "WebApplication",
+        "name": "WoodPay",
+        "url": "https://olvrahub.netlify.app/woodpay.html",
+        "sameAs": "https://woodpay.netlify.app",
+        "applicationCategory": "FinanceApplication",
+        "description": "A fintech wallet built for everyday use — send, receive, and manage money without the friction.",
+        "operatingSystem": "Web"
+      }
     },
     {
-      "@type": "WebApplication",
-      "name": "CGPA Engine",
-      "url": "https://olvracgpa.netlify.app",
-      "applicationCategory": "EducationApplication",
-      "description": "A calculator built around real grading systems, so students can plan a semester before it plans them.",
-      "operatingSystem": "Web"
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "WebApplication",
+        "name": "CGPA Engine",
+        "url": "https://olvrahub.netlify.app/cgpa-engine.html",
+        "sameAs": "https://olvracgpa.netlify.app",
+        "applicationCategory": "EducationApplication",
+        "description": "A calculator built around real grading systems, so students can plan a semester before it plans them.",
+        "operatingSystem": "Web"
+      }
     },
     {
-      "@type": "WebApplication",
-      "name": "SnapPull",
-      "url": "https://snappull.netlify.app",
-      "applicationCategory": "MultimediaApplication",
-      "description": "Pull down video content from social platforms, clean and watermark-free, in one click.",
-      "operatingSystem": "Web"
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "WebApplication",
+        "name": "SnapPull",
+        "url": "https://olvrahub.netlify.app/snappull.html",
+        "sameAs": "https://snappull.netlify.app",
+        "applicationCategory": "MultimediaApplication",
+        "description": "Pull down video content from social platforms, clean and watermark-free, in one click.",
+        "operatingSystem": "Web"
+      }
     }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SiteNavigationElement",
+  "name": ["Home", "About", "Features", "Docs", "Contact"],
+  "url": [
+    "https://olvrahub.netlify.app/",
+    "https://olvrahub.netlify.app/about.html",
+    "https://olvrahub.netlify.app/features.html",
+    "https://olvrahub.netlify.app/docs.html",
+    "https://olvrahub.netlify.app/contact.html"
   ]
 }
 </script>
@@ -668,7 +709,7 @@
         <span class="badge">🛡️ Protected by Cloudflare and <a href="https://google.com" target="_blank" rel="noopener">Google</a></span>
       </div>
     </div>
-    <div><a href="#founder">Founder</a> · <a href="#systems">Systems</a> · <a href="/about.html">About</a> · <a href="/contact.html">Contact</a> · <a href="/privacy-policy.html">Privacy</a> · <a href="/terms-of-service.html">Terms</a></div>
+    <div><a href="#founder">Founder</a> · <a href="#systems">Systems</a> · <a href="/about.html">About</a> · <a href="/features.html">Features</a> · <a href="/woodpay.html">WoodPay</a> · <a href="/cgpa-engine.html">CGPA Engine</a> · <a href="/snappull.html">SnapPull</a> · <a href="/docs.html">Docs</a> · <a href="/contact.html">Contact</a> · <a href="/privacy-policy.html">Privacy</a> · <a href="/terms-of-service.html">Terms</a></div>
   </footer>
 </div>
 
