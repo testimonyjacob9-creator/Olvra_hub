@@ -222,7 +222,9 @@
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch(e){
+      loginError.textContent = 'Error: ' + e.code + ' — ' + e.message;
       loginError.style.display = 'block';
+      console.error('Sign-in error:', e);
     }
   });
 
