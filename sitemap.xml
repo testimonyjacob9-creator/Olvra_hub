@@ -37,6 +37,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://olvrahub.netlify.app/olvra-boost.html</loc>
+    <lastmod>2026-08-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://olvrahub.netlify.app/docs.html</loc>
     <lastmod>2026-08-02</lastmod>
     <changefreq>daily</changefreq>
