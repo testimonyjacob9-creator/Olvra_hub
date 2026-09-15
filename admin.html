@@ -198,10 +198,12 @@
   const db = getFirestore(app);
 
   const SYSTEMS = [
-    { id:'woodpay', name:'WoodPay', defaultUrl:'https://woodpay.netlify.app', defaultLive:true, defaultMsg:'🔥 Join 3,570 people using WoodPay today for cheap data.' },
-    { id:'cgpa', name:'CGPA Engine', defaultUrl:'https://olvracgpa.netlify.app', defaultLive:true, defaultMsg:'🎓 Trusted every exam season to plan the perfect GPA.' },
-    { id:'snappull', name:'SnapPull', defaultUrl:'https://snappull.netlify.app', defaultLive:true, defaultMsg:'⚡ Thousands of clean, watermark-free downloads and counting.' },
-    { id:'presence', name:'Presence', defaultUrl:'', defaultLive:false, defaultMsg:"💬 Never miss a message — even when you're offline." },
+    { id:'woodpay', name:'WoodPay', defaultUrl:'https://woodpay.netlify.app', defaultLive:true, defaultMsg:'' },
+    { id:'cgpa', name:'Olvra CGPA', defaultUrl:'https://olvracgpa.netlify.app', defaultLive:true, defaultMsg:'' },
+    { id:'snappull', name:'SnapPull', defaultUrl:'https://snappull.netlify.app', defaultLive:true, defaultMsg:'' },
+    { id:'olvraboost', name:'Olvra Boost', defaultUrl:'https://olvraboost.netlify.app', defaultLive:true, defaultMsg:'' },
+    { id:'webdev', name:'Web Development', defaultUrl:'https://wa.me/2347065702702', defaultLive:true, defaultMsg:'' },
+    { id:'presence', name:'Presence', defaultUrl:'', defaultLive:false, defaultMsg:'' },
     { id:'voiceforge', name:'VoiceForge', defaultUrl:'', defaultLive:false, defaultMsg:'🎙️ Turn any text into a voice that sounds human.' },
     { id:'movie', name:'Movie & Streaming Finder', defaultUrl:'', defaultLive:false, defaultMsg:'🍿 Find what to watch before you finish deciding.' },
     { id:'linkbio', name:'Link-in-Bio Builder', defaultUrl:'', defaultLive:false, defaultMsg:'🔗 One link. Every place people can find you.' },

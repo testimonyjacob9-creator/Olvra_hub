@@ -61,7 +61,7 @@
   "url": "https://olvrahub.netlify.app/",
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "https://olvrahub.netlify.app/features.html#{search_term_string}",
+    "target": "https://olvrahub.netlify.app/?q={search_term_string}",
     "query-input": "required name=search_term_string"
   }
 }
@@ -210,6 +210,31 @@
   .nav-links{display:flex; gap:32px; font-family:'IBM Plex Mono', monospace; font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase;}
   .nav-links a{color:var(--ink-dim); text-decoration:none; transition:color 0.25s;}
   .nav-links a:hover, .nav-links a:focus-visible{color:var(--ember-soft);}
+  .nav-toggle{
+    display:none;
+    background:var(--glass); border:1px solid var(--glass-border);
+    border-radius:10px; width:42px; height:42px;
+    align-items:center; justify-content:center;
+    cursor:pointer; flex-direction:column; gap:4px;
+  }
+  .nav-toggle span{width:18px; height:2px; background:var(--ink); display:block; transition:transform 0.2s, opacity 0.2s;}
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+  .nav-mobile{
+    display:none;
+    flex-direction:column;
+    gap:4px;
+    padding:10px 0 22px;
+  }
+  .nav-mobile.open{display:flex;}
+  .nav-mobile a{
+    color:var(--ink-dim); text-decoration:none;
+    font-family:'IBM Plex Mono', monospace; font-size:0.82rem;
+    letter-spacing:0.05em; text-transform:uppercase;
+    padding:12px 6px; border-bottom:1px solid var(--glass-border);
+  }
+  .nav-mobile a:hover, .nav-mobile a:focus-visible{color:var(--ember-soft);}
 
   /* HERO */
   .hero{
@@ -527,6 +552,71 @@
     line-height:1.6;
   }
 
+  /* PRODUCTS TOOLBAR — search + categories */
+  .products-toolbar{
+    display:flex; align-items:center; gap:16px;
+    margin-bottom:28px; flex-wrap:wrap;
+  }
+  .search-box{
+    flex:1 1 260px; position:relative;
+  }
+  .search-box input{
+    width:100%;
+    font-family:'Inter', sans-serif; font-size:0.92rem;
+    background:var(--glass); border:1px solid var(--glass-border);
+    color:var(--ink); border-radius:12px;
+    padding:13px 16px 13px 42px;
+    backdrop-filter:blur(14px);
+  }
+  .search-box input::placeholder{color:var(--ink-dim);}
+  .search-box input:focus{outline:none; border-color:var(--teal);}
+  .search-box::before{
+    content:'⌕';
+    position:absolute; left:15px; top:50%; transform:translateY(-50%);
+    color:var(--ink-dim); font-size:1.1rem; pointer-events:none;
+  }
+  .category-tabs{
+    display:flex; gap:8px; flex-wrap:wrap;
+  }
+  .cat-tab{
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
+    letter-spacing:0.04em; text-transform:uppercase;
+    background:var(--glass); border:1px solid var(--glass-border);
+    color:var(--ink-dim); border-radius:999px;
+    padding:9px 16px; cursor:pointer; white-space:nowrap;
+    transition:color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .cat-tab:hover{color:var(--ink);}
+  .cat-tab.active{color:var(--void-1); background:var(--ember-soft); border-color:var(--ember-soft); font-weight:600;}
+  .no-results{
+    grid-column:1/-1;
+    text-align:center;
+    padding:40px 20px;
+    color:var(--ink-dim);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    display:none;
+  }
+  .no-results.show{display:block;}
+  .sys-card{display:flex;}
+  .sys-card.sys-hidden{display:none;}
+  .sys-category{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.64rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-dim); opacity:0.75;
+  }
+
+  /* TRUST SECTION */
+  .trust-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;
+  }
+  .trust-card{padding:28px 26px;}
+  .trust-card .trust-icon{font-size:1.4rem; margin-bottom:12px; display:block;}
+  .trust-card h3{
+    font-family:'Fraunces', serif; font-weight:500; font-size:1.1rem; margin-bottom:8px;
+  }
+  .trust-card p{font-size:0.88rem; color:var(--ink-dim); line-height:1.55;}
+
   /* SYSTEMS GRID */
   .systems-grid{
     display:grid;
@@ -654,10 +744,14 @@
     .hero{grid-template-columns:1fr; padding-top:60px;}
     .systems-grid{grid-template-columns:1fr;}
     .nav-links{display:none;}
+    .nav-toggle{display:flex;}
     .letter{padding:34px 26px;}
     .letter-top{flex-wrap:wrap;}
     .founded-card{flex-direction:column; align-items:flex-start; gap:12px;}
     .founded-text{border-left:none; padding-left:0; border-top:1px solid var(--glass-border); padding-top:12px;}
+    .products-toolbar{flex-direction:column; align-items:stretch;}
+    .category-tabs{overflow-x:auto; -webkit-overflow-scrolling:touch; flex-wrap:nowrap; padding-bottom:6px;}
+    .trust-grid{grid-template-columns:1fr;}
   }
 </style>
 </head>
@@ -669,22 +763,56 @@
   <nav>
     <div class="logo">olv<span>ra</span></div>
     <div class="nav-links">
+      <a href="#products">Products</a>
       <a href="#founder">Founder</a>
-      <a href="#systems">Systems</a>
+      <a href="#trust">About</a>
       <a href="#contact">Contact</a>
     </div>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMobile" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="#products">Products</a>
+    <a href="#founder">Founder</a>
+    <a href="#trust">About</a>
+    <a href="#contact">Contact</a>
+  </div>
 
   <section class="hero hero-solo">
     <div>
-      <div class="eyebrow">Olvra Systems</div>
+      <div class="eyebrow">Olvra Systems Technologies Ltd.</div>
       <h1>Built to bring <em>comfort.</em><br>Built to be <em>relentless.</em></h1>
-      <p class="hero-sub">Olvra is a growing collection of tools made for people who need one less thing to worry about — small, dependable systems, built to just work.</p>
+      <p class="hero-sub">Olvra Hub is the home for every tool Olvra Systems builds — payments, growth, academic planning, media, and web development — one ecosystem, small dependable systems, built to just work.</p>
       <div class="hero-cta">
-        <a href="#systems" class="btn btn-primary">See what's live →</a>
+        <a href="#products" class="btn btn-primary">Explore our products →</a>
         <a href="https://wa.me/2347065702702" target="_blank" rel="noopener" class="btn btn-ghost">Meet Oliver Wood</a>
       </div>
     </div>
+  </section>
+
+  <section class="section" id="products">
+    <div class="section-head">
+      <h2>Explore Our Products</h2>
+      <div class="section-tag">The ecosystem</div>
+    </div>
+    <div class="products-toolbar">
+      <div class="search-box">
+        <input type="search" id="productSearch" placeholder="Search tools — VTU, CGPA, social growth, websites…" aria-label="Search Olvra products">
+      </div>
+      <div class="category-tabs" id="categoryTabs" role="tablist" aria-label="Filter products by category">
+        <button class="cat-tab active" data-cat="all" role="tab" aria-selected="true">All</button>
+        <button class="cat-tab" data-cat="digital-services" role="tab" aria-selected="false">Digital Services</button>
+        <button class="cat-tab" data-cat="creator-social" role="tab" aria-selected="false">Creator &amp; Social</button>
+        <button class="cat-tab" data-cat="education" role="tab" aria-selected="false">Education</button>
+        <button class="cat-tab" data-cat="productivity" role="tab" aria-selected="false">Productivity</button>
+        <button class="cat-tab" data-cat="web-tech" role="tab" aria-selected="false">Web &amp; Technology</button>
+      </div>
+    </div>
+    <div class="systems-grid" id="systemsGrid">
+      <!-- rendered by JS from SYSTEMS_META + Firestore -->
+    </div>
+    <p class="no-results" id="noResults">No tools match that search. Try a different word or category.</p>
   </section>
 
   <section class="section" id="founder">
@@ -712,14 +840,27 @@
 
   </section>
 
-  <section class="section" id="systems">
+  <section class="section trust" id="trust">
     <div class="section-head">
-      <h2>Systems</h2>
-      <div class="section-tag">What's building</div>
+      <h2>About Olvra</h2>
+      <div class="section-tag">Why trust it</div>
     </div>
-    <div class="systems-grid">
-    <div class="systems-grid" id="systemsGrid">
-      <!-- rendered by JS from SYSTEMS_META + Firestore -->
+    <div class="trust-grid">
+      <div class="glass-panel trust-card">
+        <span class="trust-icon">🔒</span>
+        <h3>Built on HTTPS</h3>
+        <p>Every page on Olvra Hub is served over HTTPS. The admin panel that controls product status is gated behind authentication, not a public form.</p>
+      </div>
+      <div class="glass-panel trust-card">
+        <span class="trust-icon">🧑‍💻</span>
+        <h3>One developer, real tools</h3>
+        <p>Olvra Systems Technologies Ltd. is built by Oliver Wood — every product here is shipped, maintained, and supported directly by the person who built it.</p>
+      </div>
+      <div class="glass-panel trust-card">
+        <span class="trust-icon">📄</span>
+        <h3>Clear policies</h3>
+        <p>Read our <a href="/privacy-policy.html" style="color:var(--teal)">privacy policy</a> and <a href="/terms-of-service.html" style="color:var(--teal)">terms of service</a> — no hidden data practices.</p>
+      </div>
     </div>
   </section>
 
@@ -732,13 +873,13 @@
 
   <footer>
     <div>
-      <div>© 2026 Olvra Systems. Built by Testimony Inaweoghena Jacob.</div>
+      <div>Olvra Hub — Powered by OLVRA SYSTEMS TECHNOLOGIES LTD.</div>
       <div class="trust-badges">
-        <span class="badge">🔒 Licensed by Oliver Wood</span>
-        <span class="badge">🛡️ Protected by Cloudflare and <a href="https://google.com" target="_blank" rel="noopener">Google</a></span>
+        <span class="badge">© 2026 Olvra Systems Technologies Ltd.</span>
+        <span class="badge">Built by Oliver Wood</span>
       </div>
     </div>
-    <div><a href="#founder">Founder</a> · <a href="#systems">Systems</a> · <a href="/about.html">About</a> · <a href="/features.html">Features</a> · <a href="/woodpay.html">WoodPay</a> · <a href="/cgpa-engine.html">CGPA Engine</a> · <a href="/snappull.html">SnapPull</a> · <a href="/olvra-boost.html">Olvra Boost</a> · <a href="/docs.html">Docs</a> · <a href="/contact.html">Contact</a> · <a href="/privacy-policy.html">Privacy</a> · <a href="/terms-of-service.html">Terms</a></div>
+    <div><a href="#products">Products</a> · <a href="#founder">Founder</a> · <a href="/about.html">About</a> · <a href="/features.html">Features</a> · <a href="/woodpay.html">WoodPay</a> · <a href="/cgpa-engine.html">CGPA Engine</a> · <a href="/snappull.html">SnapPull</a> · <a href="/olvra-boost.html">Olvra Boost</a> · <a href="/docs.html">Docs</a> · <a href="/contact.html">Contact</a> · <a href="/privacy-policy.html">Privacy</a> · <a href="/terms-of-service.html">Terms</a></div>
   </footer>
 </div>
 
@@ -760,78 +901,95 @@
   const db = getFirestore(app);
 
   // Static per-system info. Firestore only ever controls: live, url, message, clicks.
+  // category matches the data-cat values on the category tabs above.
   const SYSTEMS_META = [
-    { id:'woodpay', name:'WoodPay', icon:'woodpay-icon.png',
-      desc:'A fintech wallet built for everyday use — send, receive, and manage money without the friction.',
+    { id:'woodpay', name:'WoodPay', icon:'woodpay-icon.png', category:'digital-services',
+      desc:'A fintech wallet and VTU platform for everyday use — data, airtime, cable TV, electricity, send and receive money without the friction.',
       defaultUrl:'https://woodpay.netlify.app', defaultLive:true,
-      defaultMsg:'🔥 Join 3,570 people using WoodPay today for cheap data.' },
-    { id:'cgpa', name:'CGPA Engine', icon:'cgpa-icon.png',
+      defaultMsg:'' },
+    { id:'cgpa', name:'Olvra CGPA', icon:'cgpa-icon.png', category:'education',
       desc:'A calculator built around real grading systems, so students can plan a semester before it plans them.',
       defaultUrl:'https://olvracgpa.netlify.app', defaultLive:true,
-      defaultMsg:'🎓 Trusted every exam season to plan the perfect GPA.' },
-    { id:'snappull', name:'SnapPull', icon:'snappull-icon.png',
+      defaultMsg:'' },
+    { id:'snappull', name:'SnapPull', icon:'snappull-icon.png', category:'creator-social',
       desc:'Pull down video content from social platforms, clean and watermark-free, in one click.',
       defaultUrl:'https://snappull.netlify.app', defaultLive:true,
-      defaultMsg:'⚡ Thousands of clean, watermark-free downloads and counting.' },
-    { id:'olvraboost', name:'Olvra Boost', icon:'olvra-boost-icon.png',
+      defaultMsg:'' },
+    { id:'olvraboost', name:'Olvra Boost', icon:'olvra-boost-icon.png', category:'creator-social',
       desc:'Order real followers, likes, views and comments across every major platform — instant processing, live tracking.',
       defaultUrl:'https://olvraboost.netlify.app', defaultLive:true,
-      defaultMsg:'📈 Real growth, tracked live, straight from your wallet.' },
-    { id:'presence', name:'Presence', icon:null,
+      defaultMsg:'' },
+    { id:'webdev', name:'Web Development', icon:null, category:'web-tech',
+      desc:'Website builds, automations, bots, and graphic design for businesses and creators — from Olvra Systems.',
+      defaultUrl:'https://wa.me/2347065702702', defaultLive:true, isService:true,
+      defaultMsg:'' },
+    { id:'presence', name:'Presence', icon:null, category:'productivity',
       desc:'A quiet WhatsApp automation layer for status, replies, and scheduled check-ins that never sleep.',
       defaultUrl:null, defaultLive:false,
-      defaultMsg:'💬 Never miss a message — even when you\'re offline.' },
-    { id:'voiceforge', name:'VoiceForge', icon:'icon-voiceforge.png',
+      defaultMsg:'' },
+    { id:'voiceforge', name:'VoiceForge', icon:'icon-voiceforge.png', category:'productivity',
       desc:'Converts text into natural, human-sounding speech — for voice notes, narration, or accessibility.',
       defaultUrl:null, defaultLive:false,
-      defaultMsg:'🎙️ Turn any text into a voice that sounds human.' },
-    { id:'movie', name:'Movie & Streaming Finder', icon:'icon-movie.png',
+      defaultMsg:'' },
+    { id:'movie', name:'Movie & Streaming Finder', icon:'icon-movie.png', category:'creator-social',
       desc:'Search and browse movies and shows by metadata — a clean way to find what to watch next.',
       defaultUrl:null, defaultLive:false,
-      defaultMsg:'🍿 Find what to watch before you finish deciding.' },
-    { id:'linkbio', name:'Link-in-Bio Builder', icon:'icon-linkbio.png',
+      defaultMsg:'' },
+    { id:'linkbio', name:'Link-in-Bio Builder', icon:'icon-linkbio.png', category:'web-tech',
       desc:'One shareable page for all your links — clean, fast, and yours.',
       defaultUrl:null, defaultLive:false,
-      defaultMsg:'🔗 One link. Every place people can find you.' },
-    { id:'qrcard', name:'QR & Business Card Generator', icon:'icon-qrcard.png',
+      defaultMsg:'' },
+    { id:'qrcard', name:'QR & Business Card Generator', icon:'icon-qrcard.png', category:'productivity',
       desc:'Custom QR codes and digital business cards, made and shared in seconds.',
       defaultUrl:null, defaultLive:false,
-      defaultMsg:'📇 Your whole contact card, scanned in one tap.' },
-    { id:'groupguard', name:'Group Management Bot', icon:'icon-groupguard.png',
+      defaultMsg:'' },
+    { id:'groupguard', name:'Group Management Bot', icon:'icon-groupguard.png', category:'productivity',
       desc:'Auto-moderation, welcome messages, and anti-spam for WhatsApp and Telegram groups.',
       defaultUrl:null, defaultLive:false,
-      defaultMsg:'🛡️ Groups that manage themselves while you sleep.' },
-    { id:'apirelay', name:'API Wrapper', icon:'icon-apirelay.png',
+      defaultMsg:'' },
+    { id:'apirelay', name:'API Wrapper', icon:'icon-apirelay.png', category:'web-tech',
       desc:'Public APIs, repackaged with your own docs and rate limits — simple access, your pricing.',
       defaultUrl:null, defaultLive:false,
-      defaultMsg:'🔌 Your own API, your own pricing, zero hassle.' },
-    { id:'reminders', name:'Scheduled Reminders', icon:'icon-reminders.png',
+      defaultMsg:'' },
+    { id:'reminders', name:'Scheduled Reminders', icon:'icon-reminders.png', category:'productivity',
       desc:'Scheduled WhatsApp and Telegram messages that show up right when they\'re supposed to.',
       defaultUrl:null, defaultLive:false,
-      defaultMsg:'⏰ The nudge that shows up exactly when it should.' }
+      defaultMsg:'' }
   ];
+
+  const CATEGORY_LABEL = {
+    'digital-services':'Digital Services', 'creator-social':'Creator & Social',
+    'education':'Education', 'productivity':'Productivity', 'web-tech':'Web & Technology'
+  };
 
   function cardHTML(meta, state){
     const icon = meta.icon ? `<img src="${meta.icon}" alt="${meta.name}" class="sys-icon" width="52" height="52" loading="lazy">` : '';
-    const statusText = state.live ? 'Live' : (meta.defaultUrl || state.url ? 'Unavailable' : 'Coming soon');
-    const statusClass = state.live ? '' : 'building';
-    const linkText = state.live ? 'Open app →' : (statusText === 'Unavailable' ? 'Temporarily unavailable' : 'Coming soon →');
+    const statusText = meta.isService ? 'Service' : (state.live ? 'Live' : (meta.defaultUrl || state.url ? 'Unavailable' : 'Coming soon'));
+    const statusClass = (state.live || meta.isService) ? '' : 'building';
+    const linkText = meta.isService ? 'Get in touch →' : (state.live ? 'Open app →' : (statusText === 'Unavailable' ? 'Temporarily unavailable' : 'Coming soon →'));
     const msgHTML = state.message ? `<div class="sys-message" style="display:block;">${state.message}</div>` : '';
+    const catLabel = CATEGORY_LABEL[meta.category] || '';
     return `
       ${icon}
       <div class="sys-status ${statusClass}">${statusText}</div>
       <h3>${meta.name}</h3>
       <p>${meta.desc}</p>
       ${msgHTML}
-      <span class="sys-link">${linkText}</span>
+      <div style="margin-top:auto; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+        <span class="sys-link">${linkText}</span>
+        <span class="sys-category">${catLabel}</span>
+      </div>
     `;
   }
 
   function renderCard(meta, state){
     const tag = state.live && state.url ? 'a' : 'div';
     const el = document.createElement(tag);
-    el.className = 'glass-panel sys-card' + (!state.live && (meta.defaultUrl || state.url) ? ' sys-disabled' : '');
+    el.className = 'glass-panel sys-card' + (!state.live && !meta.isService && (meta.defaultUrl || state.url) ? ' sys-disabled' : '');
     el.dataset.system = meta.id;
+    el.dataset.category = meta.category || '';
+    el.dataset.name = meta.name.toLowerCase();
+    el.dataset.desc = meta.desc.toLowerCase();
     if(tag === 'a'){
       el.href = state.url;
       el.target = '_blank';
@@ -868,7 +1026,57 @@
     }
   }
 
-  loadSystems();
+  loadSystems().then(applyFilters);
+
+  // --- Search + category filtering ---
+  let activeCategory = 'all';
+  function applyFilters(){
+    const q = (document.getElementById('productSearch').value || '').trim().toLowerCase();
+    const cards = document.querySelectorAll('#systemsGrid .sys-card');
+    let visible = 0;
+    cards.forEach(card => {
+      const matchesCat = activeCategory === 'all' || card.dataset.category === activeCategory;
+      const matchesQuery = !q || card.dataset.name.includes(q) || card.dataset.desc.includes(q) || (CATEGORY_LABEL[card.dataset.category] || '').toLowerCase().includes(q);
+      const show = matchesCat && matchesQuery;
+      card.classList.toggle('sys-hidden', !show);
+      if(show) visible++;
+    });
+    document.getElementById('noResults').classList.toggle('show', visible === 0);
+  }
+
+  document.getElementById('productSearch').addEventListener('input', applyFilters);
+
+  document.getElementById('categoryTabs').addEventListener('click', (e) => {
+    const btn = e.target.closest('.cat-tab');
+    if(!btn) return;
+    activeCategory = btn.dataset.cat;
+    document.querySelectorAll('.cat-tab').forEach(t => {
+      t.classList.toggle('active', t === btn);
+      t.setAttribute('aria-selected', t === btn ? 'true' : 'false');
+    });
+    applyFilters();
+  });
+
+  // Support the SearchAction JSON-LD (?q=term) and deep links from search engines
+  const initialQuery = new URLSearchParams(window.location.search).get('q');
+  if(initialQuery){
+    document.getElementById('productSearch').value = initialQuery;
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('products').scrollIntoView({ behavior:'instant', block:'start' });
+    });
+  }
+
+  // --- Mobile nav toggle ---
+  const navToggle = document.getElementById('navToggle');
+  const navMobile = document.getElementById('navMobile');
+  navToggle.addEventListener('click', () => {
+    const open = navMobile.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navMobile.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }));
 </script>
 
 </body>
