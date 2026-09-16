@@ -146,6 +146,48 @@
   .save-btn:hover{border-color:var(--teal);}
   .save-status{font-size:0.7rem; color:var(--teal); margin-left:10px; opacity:0; transition:opacity 0.3s;}
   .save-status.show{opacity:1;}
+
+  /* STATS BAR */
+  .stats-bar{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:12px;
+    margin-bottom:22px;
+  }
+  .stat-card{padding:16px 14px; text-align:center;}
+  .stat-value{
+    font-family:'Fraunces', serif; font-weight:500; font-size:1.5rem; color:var(--teal);
+  }
+  .stat-label{
+    font-family:'IBM Plex Mono', monospace; font-size:0.62rem;
+    letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-dim);
+    margin-top:4px;
+  }
+
+  /* TABS */
+  .admin-tabs{display:flex; gap:8px; margin-bottom:20px;}
+  .admin-tab{
+    background:var(--glass); border:1px solid var(--glass-border); color:var(--ink-dim);
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
+  }
+  .admin-tab.active{color:var(--teal); border-color:var(--teal);}
+  .admin-panel{display:none;}
+  .admin-panel.active{display:block;}
+
+  /* MESSAGES */
+  .msg-row{padding:18px 20px; margin-bottom:12px;}
+  .msg-row.unread{border-color:var(--teal);}
+  .msg-row-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:8px; flex-wrap:wrap;}
+  .msg-row-head strong{font-family:'Fraunces', serif; font-weight:500; font-size:0.98rem;}
+  .msg-row-head a{color:var(--teal); font-size:0.78rem; text-decoration:none;}
+  .msg-time{font-family:'IBM Plex Mono', monospace; font-size:0.66rem; color:var(--ink-dim);}
+  .msg-body{color:var(--ink-dim); font-size:0.88rem; line-height:1.6; margin-bottom:10px; white-space:pre-wrap;}
+  .msg-read-toggle{
+    background:none; border:1px solid var(--glass-border); color:var(--ink-dim);
+    font-size:0.66rem; padding:7px 12px;
+  }
+  .msg-read-toggle.is-read{color:var(--ink-dim);}
+  .empty-note{color:var(--ink-dim); font-size:0.85rem; padding:20px 4px;}
 </style>
 </head>
 <body>
@@ -166,52 +208,55 @@
     <div class="top-row">
       <div>
         <h1>Olvra <span>Admin</span></h1>
-        <div class="sub">Toggle systems live, edit their message, track clicks.</div>
+        <div class="sub">Toggle systems live, edit their message, track clicks and messages.</div>
       </div>
       <button id="signOutBtn">Sign out</button>
     </div>
 
-    <div id="rows"></div>
+    <div class="stats-bar">
+      <div class="glass-panel stat-card">
+        <div class="stat-value" id="statClicks">—</div>
+        <div class="stat-label">Total clicks</div>
+      </div>
+      <div class="glass-panel stat-card">
+        <div class="stat-value" id="statTopSystem">—</div>
+        <div class="stat-label">Most clicked</div>
+      </div>
+      <div class="glass-panel stat-card">
+        <div class="stat-value" id="statViews">—</div>
+        <div class="stat-label">Total page views</div>
+      </div>
+    </div>
+
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="systems">Systems</button>
+      <button class="admin-tab" data-tab="messages">Messages <span id="unreadBadge"></span></button>
+    </div>
+
+    <div class="admin-panel active" id="panel-systems">
+      <div id="rows"></div>
+    </div>
+
+    <div class="admin-panel" id="panel-messages">
+      <div id="messagesList"></div>
+    </div>
+
   </div>
 
 </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { app, db } from '/firebase-init.js';
   import {
     getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
   import {
-    getFirestore, doc, getDoc, setDoc
+    doc, getDoc, setDoc, collection, getDocs, query, orderBy, updateDoc
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { SYSTEMS_META } from '/systems-data.js';
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCnKefzZS3pMGfaxIIjsRClkmWjR4xpEWQ",
-    authDomain: "olvrahub.firebaseapp.com",
-    projectId: "olvrahub",
-    storageBucket: "olvrahub.firebasestorage.app",
-    messagingSenderId: "821545082724",
-    appId: "1:821545082724:web:f20fe7965bf3dd3fede471"
-  };
-  const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  const SYSTEMS = [
-    { id:'woodpay', name:'WoodPay', defaultUrl:'https://woodpay.netlify.app', defaultLive:true, defaultMsg:'' },
-    { id:'cgpa', name:'Olvra CGPA', defaultUrl:'https://olvracgpa.netlify.app', defaultLive:true, defaultMsg:'' },
-    { id:'snappull', name:'SnapPull', defaultUrl:'https://snappull.netlify.app', defaultLive:true, defaultMsg:'' },
-    { id:'olvraboost', name:'Olvra Boost', defaultUrl:'https://olvraboost.netlify.app', defaultLive:true, defaultMsg:'' },
-    { id:'webdev', name:'Web Development', defaultUrl:'https://wa.me/2347065702702', defaultLive:true, defaultMsg:'' },
-    { id:'presence', name:'Presence', defaultUrl:'', defaultLive:false, defaultMsg:'' },
-    { id:'voiceforge', name:'VoiceForge', defaultUrl:'', defaultLive:false, defaultMsg:'🎙️ Turn any text into a voice that sounds human.' },
-    { id:'movie', name:'Movie & Streaming Finder', defaultUrl:'', defaultLive:false, defaultMsg:'🍿 Find what to watch before you finish deciding.' },
-    { id:'linkbio', name:'Link-in-Bio Builder', defaultUrl:'', defaultLive:false, defaultMsg:'🔗 One link. Every place people can find you.' },
-    { id:'qrcard', name:'QR & Business Card Generator', defaultUrl:'', defaultLive:false, defaultMsg:'📇 Your whole contact card, scanned in one tap.' },
-    { id:'groupguard', name:'Group Management Bot', defaultUrl:'', defaultLive:false, defaultMsg:'🛡️ Groups that manage themselves while you sleep.' },
-    { id:'apirelay', name:'API Wrapper', defaultUrl:'', defaultLive:false, defaultMsg:'🔌 Your own API, your own pricing, zero hassle.' },
-    { id:'reminders', name:'Scheduled Reminders', defaultUrl:'', defaultLive:false, defaultMsg:'⏰ The nudge that shows up exactly when it should.' }
-  ];
+  const SYSTEMS = SYSTEMS_META;
 
   const loginScreen = document.getElementById('loginScreen');
   const dashboard = document.getElementById('dashboard');
@@ -237,15 +282,30 @@
       loginScreen.style.display = 'none';
       dashboard.style.display = 'block';
       loadRows();
+      loadMessages();
+      loadPageviews();
     } else {
       loginScreen.style.display = 'block';
       dashboard.style.display = 'none';
     }
   });
 
+  // --- Tabs ---
+  document.querySelectorAll('.admin-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.admin-tab').forEach(t => t.classList.toggle('active', t === tab));
+      document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  // --- Systems + click stats ---
   async function loadRows(){
     const container = document.getElementById('rows');
     container.innerHTML = '';
+    let totalClicks = 0;
+    let topSystem = { name: '—', clicks: -1 };
+
     for (const sys of SYSTEMS){
       let state = { live: sys.defaultLive, url: sys.defaultUrl, message: sys.defaultMsg, clicks: 0 };
       try {
@@ -258,6 +318,11 @@
           state.clicks = data.clicks || 0;
         }
       } catch(e){ console.warn('Could not load', sys.id, e); }
+
+      totalClicks += state.clicks;
+      if(state.clicks > topSystem.clicks){
+        topSystem = { name: sys.name, clicks: state.clicks };
+      }
 
       const row = document.createElement('div');
       row.className = 'glass-panel sys-row';
@@ -298,6 +363,64 @@
       });
 
       container.appendChild(row);
+    }
+
+    document.getElementById('statClicks').textContent = totalClicks;
+    document.getElementById('statTopSystem').textContent = topSystem.clicks > 0 ? topSystem.name : '—';
+  }
+
+  // --- Page view totals (from /analytics.js writes) ---
+  async function loadPageviews(){
+    try {
+      const snap = await getDocs(collection(db, 'pageviews'));
+      let total = 0;
+      snap.forEach(d => { total += (d.data().views || 0); });
+      document.getElementById('statViews').textContent = total;
+    } catch(e){
+      console.warn('Could not load pageviews', e);
+      document.getElementById('statViews').textContent = '—';
+    }
+  }
+
+  // --- Contact form messages ---
+  async function loadMessages(){
+    const list = document.getElementById('messagesList');
+    const badge = document.getElementById('unreadBadge');
+    list.innerHTML = '';
+    try {
+      const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      if(snap.empty){
+        list.innerHTML = '<div class="empty-note">No messages yet.</div>';
+        badge.textContent = '';
+        return;
+      }
+      let unread = 0;
+      snap.forEach(d => {
+        const m = d.data();
+        if(!m.read) unread++;
+        const when = m.createdAt && m.createdAt.toDate ? m.createdAt.toDate().toLocaleString() : '';
+        const row = document.createElement('div');
+        row.className = 'glass-panel msg-row' + (m.read ? '' : ' unread');
+        row.innerHTML = `
+          <div class="msg-row-head">
+            <div><strong>${m.name || 'Unknown'}</strong> — <a href="mailto:${m.email || ''}">${m.email || ''}</a></div>
+            <span class="msg-time">${when}</span>
+          </div>
+          <div class="msg-body">${m.message || ''}</div>
+          <button class="msg-read-toggle ${m.read ? 'is-read' : ''}">${m.read ? 'Mark unread' : 'Mark read'}</button>
+        `;
+        row.querySelector('.msg-read-toggle').addEventListener('click', async () => {
+          const newRead = !m.read;
+          await updateDoc(doc(db, 'messages', d.id), { read: newRead });
+          loadMessages();
+        });
+        list.appendChild(row);
+      });
+      badge.textContent = unread > 0 ? `(${unread})` : '';
+    } catch(e){
+      console.warn('Could not load messages', e);
+      list.innerHTML = '<div class="empty-note">Could not load messages.</div>';
     }
   }
 </script>

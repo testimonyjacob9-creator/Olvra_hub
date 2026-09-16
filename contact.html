@@ -85,6 +85,31 @@
     font-family:'IBM Plex Mono', monospace; font-size:0.85rem;
     color:var(--ember-soft); text-decoration:none;
   }
+  .panel.form-panel{text-align:left;}
+  .panel.form-panel h2{
+    font-family:'Fraunces', serif; font-weight:500; font-size:1.2rem;
+    margin-bottom:16px; color:var(--ink);
+  }
+  input, textarea{
+    width:100%;
+    font-family:'Inter', sans-serif; font-size:0.92rem;
+    background:rgba(244,239,232,0.05);
+    border:1px solid var(--glass-border);
+    color:var(--ink);
+    border-radius:12px;
+    padding:13px 15px;
+    margin-bottom:14px;
+  }
+  input::placeholder, textarea::placeholder{color:var(--ink-dim);}
+  input:focus, textarea:focus{outline:none; border-color:var(--teal);}
+  textarea{min-height:110px; resize:vertical;}
+  .form-btn{
+    width:100%; justify-content:center; border:none; cursor:pointer;
+  }
+  .form-btn:disabled{opacity:0.6; cursor:default;}
+  .form-status{
+    margin-top:14px; font-size:0.85rem; color:var(--teal); display:none;
+  }
   footer{
     max-width:720px; margin:0 auto; padding:0 24px 40px;
     color:var(--ink-dim); font-size:0.85rem;
@@ -102,10 +127,58 @@
       <a href="https://wa.me/2347065702702" target="_blank" rel="noopener" class="btn">Message on WhatsApp →</a>
     </div>
 
+    <div class="panel form-panel">
+      <h2>Or send a message directly</h2>
+      <form id="contactForm">
+        <input type="text" id="cf-name" placeholder="Your name" required>
+        <input type="email" id="cf-email" placeholder="Your email" required>
+        <textarea id="cf-message" placeholder="What's on your mind?" required></textarea>
+        <button type="submit" class="btn form-btn">Send message →</button>
+        <div id="cf-status" class="form-status"></div>
+      </form>
+    </div>
+
     <a href="/" class="back">← Back to Olvra Hub</a>
   </div>
   <footer>
     <div><a href="/">Home</a> · <a href="/about.html">About</a> · <a href="/features.html">Features</a> · <a href="/woodpay.html">WoodPay</a> · <a href="/cgpa-engine.html">CGPA Engine</a> · <a href="/snappull.html">SnapPull</a> · <a href="/olvra-boost.html">Olvra Boost</a> · <a href="/docs.html">Docs</a> · <a href="/contact.html">Contact</a> · <a href="/privacy-policy.html">Privacy</a> · <a href="/terms-of-service.html">Terms</a></div>
   </footer>
+<script type="module">
+  import { db } from '/firebase-init.js';
+  import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const form = document.getElementById('contactForm');
+  const status = document.getElementById('cf-status');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('cf-name').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    const message = document.getElementById('cf-message').value.trim();
+    if (!name || !email || !message) return;
+
+    const btn = form.querySelector('button');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      await addDoc(collection(db, 'messages'), {
+        name, email, message, read: false, createdAt: serverTimestamp()
+      });
+      form.reset();
+      status.style.color = 'var(--teal)';
+      status.textContent = "Message sent — we'll get back to you soon.";
+      status.style.display = 'block';
+    } catch (err) {
+      status.style.color = '#ff8080';
+      status.textContent = 'Something went wrong — please try WhatsApp instead.';
+      status.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send message →';
+    }
+  });
+</script>
+<script type="module" src="/analytics.js"></script>
 </body>
 </html>
