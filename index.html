@@ -787,6 +787,19 @@
     .category-tabs{overflow-x:auto; -webkit-overflow-scrolling:touch; flex-wrap:nowrap; padding-bottom:6px;}
     .trust-grid{grid-template-columns:1fr;}
   }
+  /* Phone fit: the tab row scrolls inside its own box instead of stretching the page to ~900px (which made phones zoom out like a desktop). */
+  html{overflow-x:clip;}
+  .products-toolbar,.search-box,.category-tabs,.section,.wrap{min-width:0; max-width:100%;}
+  .search-box input{max-width:100%; font-size:16px;}
+  .category-tabs{scrollbar-width:none;}
+  .category-tabs::-webkit-scrollbar{display:none;}
+  @media (max-width:600px){
+    .ember-orb{width:360px; height:360px; top:-120px;}
+    .wrap{padding-left:18px; padding-right:18px;}
+    .section{padding-left:0; padding-right:0;}
+    .sys-card{padding:24px 20px;}
+    h1{font-size:clamp(1.9rem,9vw,2.6rem);}
+  }
 </style>
 </head>
 <body>
