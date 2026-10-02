@@ -123,6 +123,20 @@
         "description": "Order real followers, likes, views and comments across Instagram, TikTok, Facebook, Twitter and YouTube — pay from an in-app wallet and track every order live.",
         "operatingSystem": "Web"
       }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "item": {
+        "@type": "WebApplication",
+        "name": "Lumora OLVRA",
+        "alternateName": ["Lumora", "Lumora AI", "OLVRA Lumora", "Lumora by OLVRA"],
+        "url": "https://olvrahub.netlify.app/lumora.html",
+        "sameAs": "https://lumoral.netlify.app",
+        "applicationCategory": "LifestyleApplication",
+        "description": "Intelligent AI companions built for conversation, creativity, learning and discovery.",
+        "operatingSystem": "Web"
+      }
     }
   ]
 }
@@ -694,6 +708,8 @@
     gap:6px;
     opacity:0.85;
   }
+    .sys-link{white-space:nowrap}
+    .sys-category{text-align:right}
   .sys-link:hover{opacity:1; color:var(--ember-soft);}
   .sys-message{
     font-family:'IBM Plex Mono', monospace;
@@ -801,7 +817,7 @@
     <div>
       <div class="eyebrow">Olvra Systems Technologies Ltd.</div>
       <h1>Built to bring <em>comfort.</em><br>Built to be <em>relentless.</em></h1>
-      <p class="hero-sub">Olvra Hub is the home for every tool Olvra Systems builds — payments, growth, academic planning, media, and web development — one ecosystem, small dependable systems, built to just work.</p>
+      <p class="hero-sub">Olvra Hub is the home for every tool Olvra Systems builds — payments, growth, academic planning, media, AI, and web development — one ecosystem, small dependable systems, built to just work.</p>
       <div class="hero-cta">
         <a href="#products" class="btn btn-primary">Explore our products →</a>
         <a href="https://wa.me/2347065702702" target="_blank" rel="noopener" class="btn btn-ghost">Meet Oliver Wood</a>
@@ -824,6 +840,7 @@
         <button class="cat-tab" data-cat="creator-social" role="tab" aria-selected="false">Creator &amp; Social</button>
         <button class="cat-tab" data-cat="education" role="tab" aria-selected="false">Education</button>
         <button class="cat-tab" data-cat="productivity" role="tab" aria-selected="false">Productivity</button>
+        <button class="cat-tab" data-cat="ai-platform" role="tab" aria-selected="false">AI Platform</button>
         <button class="cat-tab" data-cat="web-tech" role="tab" aria-selected="false">Web &amp; Technology</button>
       </div>
     </div>
@@ -898,7 +915,7 @@
         <span class="badge">Built by Oliver Wood</span>
       </div>
     </div>
-    <div><a href="#products">Products</a> · <a href="#founder">Founder</a> · <a href="/about.html">About</a> · <a href="/features.html">Features</a> · <a href="/woodpay.html">WoodPay</a> · <a href="/cgpa-engine.html">CGPA Engine</a> · <a href="/snappull.html">SnapPull</a> · <a href="/olvra-boost.html">Olvra Boost</a> · <a href="/docs.html">Docs</a> · <a href="/contact.html">Contact</a> · <a href="/privacy-policy.html">Privacy</a> · <a href="/terms-of-service.html">Terms</a></div>
+    <div><a href="#products">Products</a> · <a href="#founder">Founder</a> · <a href="/about.html">About</a> · <a href="/features.html">Features</a> · <a href="/woodpay.html">WoodPay</a> · <a href="/cgpa-engine.html">CGPA Engine</a> · <a href="/snappull.html">SnapPull</a> <span aria-hidden="true">·</span> <a href="/lumora.html">Lumora OLVRA</a> · <a href="/olvra-boost.html">Olvra Boost</a> · <a href="/docs.html">Docs</a> · <a href="/contact.html">Contact</a> · <a href="/privacy-policy.html">Privacy</a> · <a href="/terms-of-service.html">Terms</a></div>
   </footer>
 </div>
 
@@ -915,7 +932,7 @@
     const icon = meta.icon ? `<img src="${meta.icon}" alt="${meta.name}" class="sys-icon" width="52" height="52" loading="lazy">` : '';
     const statusText = meta.isService ? 'Service' : (state.live ? 'Live' : (meta.defaultUrl || state.url ? 'Unavailable' : 'Coming soon'));
     const statusClass = (state.live || meta.isService) ? '' : 'building';
-    const linkText = meta.isService ? 'Get in touch →' : (state.live ? 'Open app →' : (statusText === 'Unavailable' ? 'Temporarily unavailable' : 'Coming soon →'));
+    const linkText = meta.isService ? 'Get in touch →' : (state.live ? (meta.cta || 'Open app →') : (statusText === 'Unavailable' ? 'Temporarily unavailable' : 'Coming soon →'));
     const msgHTML = state.message ? `<div class="sys-message" style="display:block;">${state.message}</div>` : '';
     const catLabel = CATEGORY_LABEL[meta.category] || '';
     return `

@@ -19,6 +19,10 @@ export const SYSTEMS_META = [
     desc:'Order real followers, likes, views and comments across every major platform — instant processing, live tracking.',
     defaultUrl:'https://olvraboost.netlify.app', defaultLive:true,
     defaultMsg:'' },
+  { id:'lumora', name:'Lumora OLVRA', icon:'lumora-icon.png', category:'ai-platform', cta:'Visit Lumora →',
+    desc:'Meet intelligent AI companions built for conversation, creativity, learning and discovery.',
+    defaultUrl:'https://lumoral.netlify.app', defaultLive:true,
+    defaultMsg:'' },
   { id:'webdev', name:'Web Development', icon:null, category:'web-tech',
     desc:'Website builds, automations, bots, and graphic design for businesses and creators — from Olvra Systems.',
     defaultUrl:'https://wa.me/2347065702702', defaultLive:true, isService:true,
@@ -58,7 +62,7 @@ export const SYSTEMS_META = [
 ];
 
 export const CATEGORY_LABEL = {
-  'digital-services':'Digital Services', 'creator-social':'Creator & Social',
+  'digital-services':'Digital Services', 'creator-social':'Creator & Social', 'ai-platform':'AI Platform / AI Companions',
   'education':'Education', 'productivity':'Productivity', 'web-tech':'Web & Technology'
 };
 
