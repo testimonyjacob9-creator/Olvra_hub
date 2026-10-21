@@ -19,7 +19,7 @@
 <meta name="twitter:image" content="og-image.png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/manifest.webmanifest">
-<meta name="theme-color" content="#160f22">
+<meta name="theme-color" content="#ffffff">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -41,10 +41,10 @@
   },
   "url": "https://olvrahub.netlify.app/",
   "sameAs": [
-    "https://woodpay.netlify.app",
+    "https://woodpay.com.ng",
     "https://olvracgpa.netlify.app",
     "https://snappull.netlify.app",
-    "https://olvraboost.netlify.app",
+    "https://olvraboost.com.ng",
     "https://x.com/woodpayllc",
         "https://www.linkedin.com/in/testimony-jacob-3a028b320",
         "https://github.com/testimonyjacob9-creator",
@@ -79,7 +79,7 @@
         "@type": "WebApplication",
         "name": "WoodPay",
         "url": "https://olvrahub.netlify.app/woodpay.html",
-        "sameAs": "https://woodpay.netlify.app",
+        "sameAs": "https://woodpay.com.ng",
         "applicationCategory": "FinanceApplication",
         "description": "A fintech wallet built for everyday use — send, receive, and manage money without the friction.",
         "operatingSystem": "Web"
@@ -118,7 +118,7 @@
         "@type": "WebApplication",
         "name": "Olvra Boost",
         "url": "https://olvrahub.netlify.app/olvra-boost.html",
-        "sameAs": "https://olvraboost.netlify.app",
+        "sameAs": "https://olvraboost.com.ng",
         "applicationCategory": "SocialNetworkingApplication",
         "description": "Order real followers, likes, views and comments across Instagram, TikTok, Facebook, Twitter and YouTube — pay from an in-app wallet and track every order live.",
         "operatingSystem": "Web"
@@ -801,6 +801,7 @@
     h1{font-size:clamp(1.9rem,9vw,2.6rem);}
   }
 </style>
+<link rel="stylesheet" href="/theme-light.css">
 </head>
 <body>
 
@@ -810,9 +811,9 @@
   <nav>
     <div class="logo">olv<span>ra</span></div>
     <div class="nav-links">
-      <a href="#products">Products</a>
+      <a href="#products">Tools</a>
+      <a href="#how">How it works</a>
       <a href="#founder">Founder</a>
-      <a href="#trust">About</a>
       <a href="#contact">Contact</a>
     </div>
     <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMobile" aria-label="Open menu">
@@ -820,32 +821,37 @@
     </button>
   </nav>
   <div class="nav-mobile" id="navMobile">
-    <a href="#products">Products</a>
+    <a href="#products">Tools</a>
+    <a href="#how">How it works</a>
     <a href="#founder">Founder</a>
-    <a href="#trust">About</a>
     <a href="#contact">Contact</a>
   </div>
 
   <section class="hero hero-solo">
     <div>
-      <div class="eyebrow">Olvra Systems Technologies Ltd.</div>
-      <h1>Built to bring <em>comfort.</em><br>Built to be <em>relentless.</em></h1>
-      <p class="hero-sub">Olvra Hub is the home for every tool Olvra Systems builds — payments, growth, academic planning, media, AI, and web development — one ecosystem, small dependable systems, built to just work.</p>
+      <div class="eyebrow">Made by Olvra Systems</div>
+      <h1>Everyday tools, <em>made simple.</em></h1>
+      <p class="hero-sub">Olvra Hub is one place to find every tool we build. Pay bills, grow your social pages, work out your CGPA, download videos, chat with AI, or get a website made.</p>
       <div class="hero-cta">
-        <a href="#products" class="btn btn-primary">Explore our products →</a>
-        <a href="https://wa.me/2347065702702" target="_blank" rel="noopener" class="btn btn-ghost">Meet Oliver Wood</a>
+        <a href="#products" class="btn btn-primary">Browse the tools →</a>
+        <a href="https://wa.me/2347065702702" target="_blank" rel="noopener" class="btn btn-ghost">Chat with Oliver</a>
+      </div>
+      <div class="chips">
+        <span class="chip"><b>✓</b> Works on any phone</span>
+        <span class="chip"><b>✓</b> No Olvra account needed</span>
+        <span class="chip"><b>✓</b> Built by one real developer</span>
       </div>
     </div>
   </section>
 
   <section class="section" id="products">
     <div class="section-head">
-      <h2>Explore Our Products</h2>
-      <div class="section-tag">The ecosystem</div>
+      <h2>Our Tools</h2>
+      <div class="section-tag">Pick one to start</div>
     </div>
     <div class="products-toolbar">
       <div class="search-box">
-        <input type="search" id="productSearch" placeholder="Search tools — VTU, CGPA, social growth, websites…" aria-label="Search Olvra products">
+        <input type="search" id="productSearch" placeholder="Search tools…" aria-label="Search Olvra products">
       </div>
       <div class="category-tabs" id="categoryTabs" role="tablist" aria-label="Filter products by category">
         <button class="cat-tab active" data-cat="all" role="tab" aria-selected="true">All</button>
@@ -860,14 +866,26 @@
     <div class="systems-grid" id="systemsGrid">
       <!-- rendered by JS from SYSTEMS_META + Firestore -->
     </div>
-    <p class="no-results" id="noResults">No tools match that search. Try a different word or category.</p>
+    <p class="no-results" id="noResults">We couldn’t find that. Try another word, or pick a category above.</p>
     <div class="docs-results" id="docsResults"></div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="section-head">
+      <h2>How it works</h2>
+      <div class="section-tag">Three easy steps</div>
+    </div>
+    <div class="steps">
+      <div class="glass-panel step"><div class="step-num">1</div><h3>Pick a tool</h3><p>Browse the list above, or type what you need into the search box.</p></div>
+      <div class="glass-panel step"><div class="step-num">2</div><h3>Tap to open it</h3><p>Every live tool opens in its own page. No Olvra account is needed.</p></div>
+      <div class="glass-panel step"><div class="step-num">3</div><h3>Get it done</h3><p>Stuck on anything? Message us on WhatsApp and we’ll help.</p></div>
+    </div>
   </section>
 
   <section class="section" id="founder">
     <div class="section-head">
       <h2>Meet Oliver Wood</h2>
-      <div class="section-tag">Origin</div>
+      <div class="section-tag">The founder</div>
     </div>
 
     <div class="letter glass-panel">
@@ -880,9 +898,9 @@
 
       <div class="letter-body">
         <p>Hi, I'm Oliver Wood.</p>
-        <p>I'm not chasing hype — I'm chasing <strong>comfort</strong>. The kind that comes from a tool that just works, a problem that quietly disappears, a person who feels a little less stuck because something was built for them.</p>
-        <p>That's the whole reason Olvra exists. Not to look impressive, but to actually help.</p>
-        <p>If there's one thing I hope you take from watching me build, it's this: <strong>you don't need permission to start, you need to be relentless enough to keep going.</strong> That's the only rule I've ever really followed.</p>
+        <p>I don’t build to impress anyone. I build to bring <strong>comfort</strong>: a tool that just works, a problem that quietly goes away, and one less thing to feel stuck on.</p>
+        <p>That’s why Olvra exists: to actually help.</p>
+        <p>If you take one thing from my story, let it be this: <strong>you don’t need permission to start. You just need to keep going.</strong></p>
         <p class="letter-sign">— Oliver Wood</p>
       </div>
     </div>
@@ -891,32 +909,33 @@
 
   <section class="section trust" id="trust">
     <div class="section-head">
-      <h2>About Olvra</h2>
-      <div class="section-tag">Why trust it</div>
+      <h2>Why people trust Olvra</h2>
+      <div class="section-tag">Safe and clear</div>
     </div>
     <div class="trust-grid">
       <div class="glass-panel trust-card">
         <span class="trust-icon">🔒</span>
-        <h3>Built on HTTPS</h3>
-        <p>Every page on Olvra Hub is served over HTTPS. The admin panel that controls product status is gated behind authentication, not a public form.</p>
+        <h3>Secure by default</h3>
+        <p>Every page uses HTTPS, and the admin area is protected by a login, so only the right person can change anything.</p>
       </div>
       <div class="glass-panel trust-card">
         <span class="trust-icon">🧑‍💻</span>
-        <h3>One developer, real tools</h3>
-        <p>Olvra Systems Technologies Ltd. is built by Oliver Wood — every product here is shipped, maintained, and supported directly by the person who built it.</p>
+        <h3>Made by a real person</h3>
+        <p>Oliver Wood builds, runs, and supports every tool here himself. You are talking to the person who made it.</p>
       </div>
       <div class="glass-panel trust-card">
         <span class="trust-icon">📄</span>
         <h3>Clear policies</h3>
-        <p>Read our <a href="/privacy-policy.html" style="color:var(--teal)">privacy policy</a> and <a href="/terms-of-service.html" style="color:var(--teal)">terms of service</a> — no hidden data practices.</p>
+        <p>Read our <a href="/privacy-policy.html" style="color:var(--teal)">privacy policy</a> and <a href="/terms-of-service.html" style="color:var(--teal)">terms of service</a>. Plain language, nothing hidden.</p>
       </div>
     </div>
   </section>
 
   <section class="section closing" id="contact">
     <div class="glass-panel" style="padding:50px 40px;">
-      <h2>Comfort starts with a conversation. Reach out.</h2>
-      <a href="https://wa.me/2347065702702" target="_blank" rel="noopener" class="btn btn-primary">Message on WhatsApp →</a>
+      <h2>Have a question or an idea? Let’s talk.</h2>
+      <p class="closing-sub">The quickest way to reach us is WhatsApp.</p>
+      <a href="https://wa.me/2347065702702" target="_blank" rel="noopener" class="btn btn-primary">Chat on WhatsApp →</a>
     </div>
   </section>
 
@@ -928,7 +947,7 @@
         <span class="badge">Built by Oliver Wood</span>
       </div>
     </div>
-    <div><a href="#products">Products</a> · <a href="#founder">Founder</a> · <a href="/about.html">About</a> · <a href="/features.html">Features</a> · <a href="/woodpay.html">WoodPay</a> · <a href="/cgpa-engine.html">CGPA Engine</a> · <a href="/snappull.html">SnapPull</a> <span aria-hidden="true">·</span> <a href="/lumora.html">Lumora OLVRA</a> · <a href="/olvra-boost.html">Olvra Boost</a> · <a href="/docs.html">Docs</a> · <a href="/contact.html">Contact</a> · <a href="/privacy-policy.html">Privacy</a> · <a href="/terms-of-service.html">Terms</a></div>
+    <div><a href="#products">Tools</a> · <a href="#founder">Founder</a> · <a href="/about.html">About</a> · <a href="/features.html">Features</a> · <a href="/woodpay.html">WoodPay</a> · <a href="/cgpa-engine.html">CGPA Engine</a> · <a href="/snappull.html">SnapPull</a> <span aria-hidden="true">·</span> <a href="/lumora.html">Lumora OLVRA</a> · <a href="/olvra-boost.html">Olvra Boost</a> · <a href="/docs.html">Docs</a> · <a href="/contact.html">Contact</a> · <a href="/privacy-policy.html">Privacy</a> · <a href="/terms-of-service.html">Terms</a></div>
   </footer>
 </div>
 
@@ -943,9 +962,9 @@
 
   function cardHTML(meta, state){
     const icon = meta.icon ? `<img src="${meta.icon}" alt="${meta.name}" class="sys-icon" width="52" height="52" loading="lazy">` : '';
-    const statusText = meta.isService ? 'Service' : (state.live ? 'Live' : (meta.defaultUrl || state.url ? 'Unavailable' : 'Coming soon'));
+    const statusText = meta.isService ? 'Service' : (state.live ? 'Live' : (meta.defaultUrl || state.url ? 'Paused' : 'Coming soon'));
     const statusClass = (state.live || meta.isService) ? '' : 'building';
-    const linkText = meta.isService ? 'Get in touch →' : (state.live ? (meta.cta || 'Open app →') : (statusText === 'Unavailable' ? 'Temporarily unavailable' : 'Coming soon →'));
+    const linkText = meta.isService ? 'Get in touch →' : (state.live ? (meta.cta || 'Open app →') : (statusText === 'Paused' ? 'Temporarily paused' : 'Coming soon →'));
     const msgHTML = state.message ? `<div class="sys-message" style="display:block;">${state.message}</div>` : '';
     const catLabel = CATEGORY_LABEL[meta.category] || '';
     return `
@@ -986,6 +1005,9 @@
     });
   }
 
+  const URL_MIGRATE = { 'https://woodpay.netlify.app':'https://woodpay.com.ng', 'https://olvraboost.netlify.app':'https://olvraboost.com.ng' };
+  const fixUrl = u => (u && URL_MIGRATE[u.replace(/\/+$/,'')]) || u;
+
   async function loadSystems(){
     const grid = document.getElementById('systemsGrid');
     for (const meta of SYSTEMS_META){
@@ -995,7 +1017,7 @@
         if(snap.exists()){
           const data = snap.data();
           state.live = data.live !== undefined ? data.live : state.live;
-          state.url = data.url || state.url;
+          state.url = fixUrl(data.url) || state.url;
           state.message = data.message || state.message;
         }
       } catch(e){
@@ -1085,5 +1107,6 @@
 </script>
 <script type="module" src="/analytics.js"></script>
 
+<script src="/olvra-ui.js" defer></script>
 </body>
 </html>

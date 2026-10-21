@@ -189,6 +189,7 @@
   .msg-read-toggle.is-read{color:var(--ink-dim);}
   .empty-note{color:var(--ink-dim); font-size:0.85rem; padding:20px 4px;}
 </style>
+<link rel="stylesheet" href="/theme-light.css">
 </head>
 <body>
 
@@ -299,6 +300,9 @@
     });
   });
 
+  const URL_MIGRATE = { 'https://woodpay.netlify.app':'https://woodpay.com.ng', 'https://olvraboost.netlify.app':'https://olvraboost.com.ng' };
+  const fixUrl = u => (u && URL_MIGRATE[u.replace(/\/+$/,'')]) || u;
+
   // --- Systems + click stats ---
   async function loadRows(){
     const container = document.getElementById('rows');
@@ -313,7 +317,7 @@
         if(snap.exists()){
           const data = snap.data();
           state.live = data.live !== undefined ? data.live : state.live;
-          state.url = data.url !== undefined ? data.url : state.url;
+          state.url = data.url !== undefined ? fixUrl(data.url) : state.url;
           state.message = data.message !== undefined ? data.message : state.message;
           state.clicks = data.clicks || 0;
         }
@@ -425,5 +429,6 @@
   }
 </script>
 
+<script src="/olvra-ui.js" defer></script>
 </body>
 </html>
