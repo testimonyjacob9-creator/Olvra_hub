@@ -1,4 +1,4 @@
-// Olvra Hub — shared Firebase initialization.
+// Olvra Systems — shared Firebase initialization.
 // Every page that needs Firestore imports { db } from here instead of
 // repeating firebaseConfig. Auth is initialized separately in admin.html
 // only, since it's the only page that needs it.

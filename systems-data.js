@@ -1,4 +1,4 @@
-// Olvra Hub — shared system/product metadata.
+// Olvra Systems — shared system/product metadata.
 // Single source of truth, imported by both index.html (public grid) and
 // admin.html (dashboard), so a new system only needs to be added here once.
 // Firestore only ever overrides: live, url, message, clicks.

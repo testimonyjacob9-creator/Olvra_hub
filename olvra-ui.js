@@ -1,4 +1,4 @@
-/* Olvra Hub — small UI enhancer: soft background light, scroll progress, reveal animations,
+/* Olvra Systems — small UI enhancer: soft background light, scroll progress, reveal animations,
    glass spotlight, and a sticky-nav state. No dependencies. Everything degrades gracefully. */
 (function () {
   var doc = document, root = doc.documentElement;

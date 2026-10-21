@@ -1,4 +1,4 @@
-// Olvra Hub — lightweight, first-party pageview counter.
+// Olvra Systems — lightweight, first-party pageview counter.
 // No cookies, no third-party trackers. Counts once per page per browser
 // session (sessionStorage), written straight to Firestore as a running
 // total per page. Admin dashboard reads these totals.
